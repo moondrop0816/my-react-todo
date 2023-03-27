@@ -2,10 +2,10 @@
   "todos": [
     {
       "id": 1,
-      "title": "할일 제목",
-      "body": "할일 내용",
-      "createdAt": "2023-03-26",
-      "type": "boolean"
+      "content": "할일 제목",
+      "count": 1,
+      "done": false,
+      "createdAt": "2023-03-26"
     }
   ]
 }
