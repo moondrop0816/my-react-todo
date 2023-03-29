@@ -4,7 +4,7 @@ const Nav = () => {
   // 메뉴들이 들어가는 네비게이션
   // 오늘의 할일, 통계, 만든사람
   return (
-    <div>
+    <nav>
       <ul>
         <li>
           <Link to="/">오늘의 할일</Link>
@@ -16,7 +16,7 @@ const Nav = () => {
           <Link to="/makerinfo">만든 사람</Link>
         </li>
       </ul>
-    </div>
+    </nav>
   );
 };
 
