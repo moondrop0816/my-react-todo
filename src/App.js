@@ -4,12 +4,25 @@ import { Routes, Route } from "react-router-dom";
 import TodoContainer from "./pages/TodoContainer";
 import Statistics from "./pages/Statistics";
 import MakerInfo from "./pages/MakerInfo";
+import styled from "styled-components";
+
+const StyledApp = styled.div`
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .wrapper {
+    width: 90%;
+    background: var(--white);
+  }
+`;
 
 function App() {
   return (
     <>
       <GlobalStyle />
-      <div className="App">
+      <StyledApp className="App">
         <Header />
         <section className="wrapper">
           <Routes>
@@ -27,7 +40,7 @@ function App() {
             />
           </Routes>
         </section>
-      </div>
+      </StyledApp>
     </>
   );
 }
