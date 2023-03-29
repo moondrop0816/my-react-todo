@@ -85,6 +85,25 @@ button {
 	background: transparent;
 	border: 0;
 	outline: 0;
+	font-size: 1.6rem;
+}
+
+/* custom style */
+:root {
+	--white: #fff;
+	--black: #333;
+}
+html {
+	font-size: 62.5%;
+}
+body {
+	font-size: 1.6rem;
+	display: flex;
+	justify-content: center;
+}
+
+.App {
+	border: 1px solid green;
 }
 `;
 
