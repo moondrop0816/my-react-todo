@@ -89,9 +89,15 @@ button {
 }
 
 /* custom style */
+
 :root {
 	--white: #fff;
 	--black: #333;
+	--base: #fad09f;
+	--main-1: #ffb300;
+	--main-2: #ff6b01;
+	--point-1: #d42926;
+	--point-2: #7d8600;
 }
 html {
 	font-size: 62.5%;
@@ -99,11 +105,36 @@ html {
 body {
 	font-size: 1.6rem;
 	display: flex;
-	justify-content: center;
+  justify-content: center;
+	width: 100vw;
+  min-height: 100vh;
+	background: var(--base);
+	overflow: hidden;
 }
 
-.App {
-	border: 1px solid green;
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: 'liga';
 }
 `;
 
