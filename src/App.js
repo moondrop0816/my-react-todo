@@ -11,10 +11,12 @@ const StyledApp = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
 
   .wrapper {
     width: 90%;
     background: var(--white);
+    margin-top: 5em;
   }
 `;
 
