@@ -12,10 +12,11 @@ const StyledNavBg = styled.div`
   right: 0;
   transition: all 0.5s;
   z-index: -1;
+  visibility: hidden;
 
   &.open {
+    visibility: visible;
     opacity: 1;
-    right: 0;
     z-index: 9;
   }
 `;
@@ -52,7 +53,7 @@ const Nav = ({ menuOpen, handleMenu }) => {
     <>
       <StyledNavBg
         className={menuOpen ? "open" : ""}
-        onClick={handleMenu}
+        onClick={menuOpen ? handleMenu : undefined}
       />
       <StyledNav className={menuOpen ? "open" : ""}>
         <button
