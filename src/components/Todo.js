@@ -1,29 +1,46 @@
 import { useState } from "react";
 import styled from "styled-components";
 import Icon from "../style/Icon";
+import TodoDropdown from "./TodoDropdown";
 
 const StyledTodo = styled.li`
   display: flex;
   align-items: center;
 
   .todo-check {
+    flex: 0 0 40px;
     input {
       display: none;
     }
   }
 
-  .todo-content {
+  .todo-content-box {
     display: flex;
+    align-items: center;
+    flex: 1 0 0;
+
+    .todo-count {
+      padding: 0 0.5em;
+    }
   }
 
-  .btn-delete-todo {
+  .btn-options-todo {
+    flex: 0 0 40px;
   }
 `;
 
 const Todo = ({ todo }) => {
-  const [isDone, setIsDone] = useState(todo.done);
   // 개별 투두
   // 수정 삭제 및 할일 내용이 표시됨
+  const [isDone, setIsDone] = useState(todo.done);
+  const optionsDropdown = {
+    title: null,
+    icon: {
+      name: "more_horiz",
+      color: "var(--gray)",
+    },
+    children: [{ title: "수정하기" }, { title: "삭제하기" }],
+  };
   const handleChecked = (e) => {
     setIsDone(e.target.checked);
   };
@@ -62,23 +79,24 @@ const Todo = ({ todo }) => {
           />
         )}
       </label>
-      <div className="todo-content">
-        <p>{todo.content}</p>
+      <div className="todo-content-box">
+        <p className="todo-content">{todo.content}</p>
         {todo.count !== null ? (
-          <span>{`${todo.count.current}/${todo.count.total}`}</span>
+          <p className="todo-count">{`${todo.count.current}/${todo.count.total}`}</p>
         ) : (
           <></>
         )}
       </div>
-      <button
+      <TodoDropdown list={optionsDropdown} />
+      {/* <button
         type="button"
-        className="btn-delete-todo"
+        className="btn-options-todo"
       >
         <Icon
-          name="delete"
-          color="var(--point-1)"
+          name="more_horiz"
+          color="var(--gray)"
         />
-      </button>
+      </button> */}
     </StyledTodo>
   );
 };
