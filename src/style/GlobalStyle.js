@@ -11,6 +11,8 @@ ${reset}
 :root {
 	--white: #fff;
 	--black: #333;
+	--gray: #aaa;
+	--lightGray: #ddd;
 	--base: #fad09f;
 	--main-1: #ffb300;
 	--main-2: #ff6b01;
@@ -18,8 +20,13 @@ ${reset}
 	--point-2: #7d8600;
 }
 
+* {
+	box-sizing: border-box;
+}
+
 html {
 	font-size: 62.5%;
+	font-family: 'Pretendard';
 }
 
 body {
@@ -28,7 +35,6 @@ body {
   justify-content: center;
 	width: 100vw;
   min-height: 100vh;
-	background: var(--base);
 	overflow: hidden;
 }
 
@@ -41,6 +47,8 @@ button {
 	border: 0;
 	background: transparent;
 	font-size: 1.6rem;
+	padding: 0;
+	cursor: pointer;
 }
 `;
 
