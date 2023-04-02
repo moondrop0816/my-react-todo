@@ -5,12 +5,16 @@ import { useState, useEffect } from "react";
 
 const TodoContainer = () => {
   // Todo 컴포넌트들을 감싼 페이지
-  const [todos, setTodos] = useState(null);
+  const [todos, setTodos] = useState([]);
 
   useEffect(() => {
     (async () => {
-      const { data } = await axios.get("http://localhost:3001/todos");
-      setTodos(data);
+      try {
+        const { data } = await axios.get("http://localhost:3001/todos");
+        setTodos(data);
+      } catch (err) {
+        throw new Error(err);
+      }
     })();
   }, []);
 
@@ -55,14 +59,18 @@ const TodoContainer = () => {
         </div>
       </div>
       <ul>
-        {todos.map((todo) => {
-          return (
-            <Todo
-              key={todo.id}
-              todo={todo}
-            />
-          );
-        })}
+        {todos.length === 0 ? (
+          <li>할일이 없습니다.</li>
+        ) : (
+          todos.map((todo) => {
+            return (
+              <Todo
+                key={todo.id}
+                todo={todo}
+              />
+            );
+          })
+        )}
       </ul>
       <TodoCreateModal />
       <button type="button">추가</button>
