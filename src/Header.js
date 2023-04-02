@@ -10,7 +10,7 @@ const StyledHeader = styled.header`
   position: fixed;
 
   .header-btns {
-    width: 90%;
+    width: 100%;
     display: flex;
     justify-content: flex-end;
     padding: 1em;
