@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import Icon from "./style/Icons";
+import Icon from "./style/Icon";
 
 const StyledNavBg = styled.div`
   width: 100%;
