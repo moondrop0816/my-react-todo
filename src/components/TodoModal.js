@@ -90,13 +90,17 @@ const StyledTodoModal = styled.div`
 `;
 const TodoModal = ({ options, setOptions }) => {
   const { isOpen, mode } = options;
-  const closeModal = () => {
-    setOptions({ ...options, isOpen: false });
+  const closeModal = (e) => {
+    if (
+      e.target.classList.contains("modal-bg") ||
+      e.currentTarget.className === "btn-close"
+    )
+      setOptions({ ...options, isOpen: false });
   };
   return (
     <StyledTodoModal
       className={isOpen ? "modal-bg on" : "modal-bg"}
-      onClick={closeModal}
+      onClick={(e) => closeModal(e)}
     >
       <form className="modal-content">
         <div className="modal-title-box">
@@ -121,7 +125,7 @@ const TodoModal = ({ options, setOptions }) => {
           <button
             type="button"
             className="btn-close"
-            onClick={closeModal}
+            onClick={(e) => closeModal(e)}
           >
             <Icon
               name="close"
