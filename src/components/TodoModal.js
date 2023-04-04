@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import Icon from "../style/Icon";
 
+const StyledTitleIcon = styled(Icon)``;
+
 const StyledTodoModal = styled.div`
   position: absolute;
   background: rgba(0, 0, 0, 0.5);
@@ -8,10 +10,14 @@ const StyledTodoModal = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
   z-index: 9;
+
+  &.on {
+    display: flex;
+  }
 
   .modal-content {
     width: 50%;
@@ -36,7 +42,6 @@ const StyledTodoModal = styled.div`
 
       span:first-of-type {
         margin-right: 0.2em;
-        background-color: var(--point-2);
         border-radius: 50%;
         padding: 0.1em;
       }
@@ -75,6 +80,7 @@ const StyledTodoModal = styled.div`
     font-size: 1.8rem;
     padding: 0.5em;
     font-weight: 500;
+    transition: all 0.5s;
 
     &:hover {
       background: var(--main-1);
@@ -82,24 +88,40 @@ const StyledTodoModal = styled.div`
     }
   }
 `;
-const TodoModal = () => {
-  // 투두 등록, 수정 클릭시 나타날 팝업
-  // 이름 더 좋은거 생각나면 바꾸기...
+const TodoModal = ({ options, setOptions }) => {
+  const { isOpen, mode } = options;
+  const closeModal = () => {
+    setOptions({ ...options, isOpen: false });
+  };
   return (
-    <StyledTodoModal className="modal-bg">
+    <StyledTodoModal
+      className={isOpen ? "modal-bg on" : "modal-bg"}
+      onClick={closeModal}
+    >
       <form className="modal-content">
         <div className="modal-title-box">
           <h3 className="modal-title">
-            <Icon
-              name="add"
-              fontSize="3rem"
-              color="var(--white)"
-            />
-            <span>할일 등록 하기</span>
+            {mode === "create" ? (
+              <StyledTitleIcon
+                name="add"
+                fontSize="3rem"
+                color="var(--white)"
+                bgColor="var(--point-2)"
+              />
+            ) : (
+              <StyledTitleIcon
+                name="edit"
+                fontSize="3rem"
+                color="var(--white)"
+                bgColor="var(--main-2)"
+              />
+            )}
+            <span>{mode === "create" ? "할일 등록하기" : "할일 수정하기"}</span>
           </h3>
           <button
             type="button"
             className="btn-close"
+            onClick={closeModal}
           >
             <Icon
               name="close"
@@ -109,7 +131,7 @@ const TodoModal = () => {
         </div>
         <div className="modal-txt-box">
           <label>
-            <p>내용</p>
+            <p>할일 내용</p>
             <input
               type="text"
               placeholder="할일의 내용을 입력해주세요."
@@ -125,7 +147,9 @@ const TodoModal = () => {
             />
           </label>
         </div>
-        <button type="submit">할일 등록</button>
+        <button type="submit">
+          {mode === "create" ? "할일 등록" : "할일 수정"}
+        </button>
       </form>
     </StyledTodoModal>
   );
