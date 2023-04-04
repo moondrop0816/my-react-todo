@@ -29,7 +29,7 @@ const StyledTodo = styled.li`
   }
 `;
 
-const Todo = ({ todo }) => {
+const Todo = ({ todo, openModal }) => {
   // 개별 투두
   // 수정 삭제 및 할일 내용이 표시됨
   const [isDone, setIsDone] = useState(todo.done);
@@ -39,7 +39,10 @@ const Todo = ({ todo }) => {
       name: "more_horiz",
       color: "var(--gray)",
     },
-    children: [{ title: "수정하기" }, { title: "삭제하기" }],
+    children: [
+      { title: "수정하기", onClick: openModal },
+      { title: "삭제하기" },
+    ],
   };
   const handleChecked = (e) => {
     setIsDone(e.target.checked);
@@ -88,15 +91,6 @@ const Todo = ({ todo }) => {
         )}
       </div>
       <TodoDropdown list={optionsDropdown} />
-      {/* <button
-        type="button"
-        className="btn-options-todo"
-      >
-        <Icon
-          name="more_horiz"
-          color="var(--gray)"
-        />
-      </button> */}
     </StyledTodo>
   );
 };

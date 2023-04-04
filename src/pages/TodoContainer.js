@@ -35,13 +35,19 @@ const StyledTodoContainer = styled.div`
 
   .btn-add-todo {
     position: fixed;
-    right: 0;
+    right: 1em;
+    background: var(--point-2);
+    border-radius: 50%;
   }
 `;
 
 const TodoContainer = () => {
-  // Todo 컴포넌트들을 감싼 페이지
   const [todos, setTodos] = useState([]);
+  const [modal, setModal] = useState({
+    isOpen: false,
+    mode: "",
+  });
+
   const filterDropdown = {
     title: "전체",
     icon: {
@@ -88,6 +94,11 @@ const TodoContainer = () => {
     return `${year}년 ${month}월 ${date}일 ${day}`;
   };
 
+  const openModal = (e) => {
+    const mode =
+      e.currentTarget.className === "btn-add-todo" ? "create" : "edit";
+    setModal({ isOpen: true, mode });
+  };
   return (
     <StyledTodoContainer>
       <div className="todo-task-box">
@@ -95,20 +106,8 @@ const TodoContainer = () => {
         <h3>남은 할일 {todos.filter((el) => !el.done).length}개</h3>
       </div>
       <div className="todo-options-box">
-        {/* <select className="todo-filter">
-          <option value="전체">전체</option>
-          <option value="미완료">미완료</option>
-          <option value="완료">완료</option>
-        </select> */}
         <TodoDropdown list={filterDropdown} />
         <TodoDropdown list={deleteDropdown} />
-        {/* <button type="button">옵션</button>
-        <div className="todo-options">
-          <ul>
-            <li>완료한 할일만 삭제</li>
-            <li>전체 삭제</li>
-          </ul>
-        </div> */}
       </div>
       <ul className="todo-list">
         {todos.length === 0 ? (
@@ -119,20 +118,25 @@ const TodoContainer = () => {
               <Todo
                 key={todo.id}
                 todo={todo}
+                openModal={openModal}
               />
             );
           })
         )}
       </ul>
-      <TodoModal />
+      <TodoModal
+        options={modal}
+        setOptions={setModal}
+      />
       <button
         type="button"
         className="btn-add-todo"
+        onClick={(e) => openModal(e)}
       >
         <Icon
-          name="add_circle"
+          name="add"
           fontSize="6.2rem"
-          color="var(--point-2)"
+          color="var(--white)"
         />
       </button>
     </StyledTodoContainer>
