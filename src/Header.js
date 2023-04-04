@@ -8,6 +8,7 @@ const StyledHeader = styled.header`
   justify-content: center;
   background-color: var(--white);
   position: fixed;
+  z-index: 9;
 
   .header-btns {
     width: 100%;

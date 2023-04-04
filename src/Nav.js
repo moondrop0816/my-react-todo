@@ -20,6 +20,7 @@ const StyledNavBg = styled.div`
     z-index: 9;
   }
 `;
+
 const StyledNav = styled.nav`
   width: 50%;
   height: 100%;
@@ -30,7 +31,7 @@ const StyledNav = styled.nav`
   right: -100%;
   display: flex;
   flex-direction: column;
-  z-index: 9;
+  z-index: 99;
   transition: all 0.5s;
 
   .btn-nav-close {
