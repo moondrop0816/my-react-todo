@@ -84,7 +84,14 @@ const TodoDropdown = ({ list }) => {
       </button>
       <ul>
         {list.children.map((child, idx) => {
-          return <li key={idx}>{child.title}</li>;
+          return (
+            <li
+              key={idx}
+              onClick={child.onClick}
+            >
+              {child.title}
+            </li>
+          );
         })}
       </ul>
     </StyledTodoOptions>
