@@ -2,10 +2,37 @@
   "todos": [
     {
       "id": 1,
-      "content": "할일 제목",
-      "count": 1,
+      "content": "투두리스트 만들기",
+      "count": null,
       "done": false,
-      "createdAt": "2023-03-26"
+      "createdAt": "2023-04-02"
+    },
+    {
+      "id": 2,
+      "content": "블로그 쓰기",
+      "count": null,
+      "done": true,
+      "createdAt": "2023-04-02"
+    },
+    {
+      "id": 3,
+      "content": "물마시기",
+      "count": {
+        "current": 0,
+        "total": 5
+      },
+      "done": false,
+      "createdAt": "2023-04-02"
+    },
+    {
+      "id": 4,
+      "content": "알고리즘 5문제",
+      "count": {
+        "current": 5,
+        "total": 5
+      },
+      "done": true,
+      "createdAt": "2023-04-02"
     }
   ]
 }
