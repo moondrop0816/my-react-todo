@@ -6,6 +6,7 @@ const StyledIcon = styled.span`
   font-style: normal;
   font-size: ${(props) => props.fontSize || "2.4rem"}; /* Preferred icon size */
   color: ${(props) => props.color || "#333"};
+  background-color: ${(props) => props.bgColor || "transparent"};
   display: inline-block;
   line-height: 1;
   text-transform: none;
@@ -26,12 +27,13 @@ const StyledIcon = styled.span`
   font-feature-settings: "liga";
 `;
 
-const Icon = ({ name, fontSize, color }) => {
+const Icon = ({ name, fontSize, color, bgColor }) => {
   return (
     <StyledIcon
       className="material-icons-round"
       fontSize={fontSize}
       color={color}
+      bgColor={bgColor}
     >
       {name}
     </StyledIcon>
