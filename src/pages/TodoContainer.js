@@ -5,6 +5,8 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import Icon from "../style/Icon";
 import TodoDropdown from "../components/TodoDropdown";
+import { useDispatch } from "react-redux";
+import { getTodos } from "../actions";
 
 const StyledTodoContainer = styled.div`
   .todo-task-box {
@@ -41,8 +43,10 @@ const StyledTodoContainer = styled.div`
   }
 `;
 
-const TodoContainer = () => {
-  const [todos, setTodos] = useState([]);
+const TodoContainer = ({ data }) => {
+  const dispatch = useDispatch();
+
+  // const [todos, setTodos] = useState([]);
   const [modal, setModal] = useState({
     isOpen: false,
     mode: "",
@@ -64,15 +68,8 @@ const TodoContainer = () => {
   };
 
   useEffect(() => {
-    (async () => {
-      try {
-        const { data } = await axios.get("http://localhost:3001/todos");
-        setTodos(data);
-      } catch (err) {
-        throw new Error(err);
-      }
-    })();
-  }, []);
+    dispatch(getTodos());
+  }, [dispatch]);
 
   const getDate = () => {
     const d = new Date();
@@ -103,17 +100,17 @@ const TodoContainer = () => {
     <StyledTodoContainer>
       <div className="todo-task-box">
         <h2>{getDate()}</h2>
-        <h3>남은 할일 {todos.filter((el) => !el.done).length}개</h3>
+        <h3>남은 할일 {data.filter((el) => !el.done).length}개</h3>
       </div>
       <div className="todo-options-box">
         <TodoDropdown list={filterDropdown} />
         <TodoDropdown list={deleteDropdown} />
       </div>
       <ul className="todo-list">
-        {todos.length === 0 ? (
+        {data.length === 0 ? (
           <li>할일이 없습니다.</li>
         ) : (
-          todos.map((todo) => {
+          data.map((todo) => {
             return (
               <Todo
                 key={todo.id}
