@@ -5,6 +5,7 @@ import TodoContainer from "./pages/TodoContainer";
 import Statistics from "./pages/Statistics";
 import MakerInfo from "./pages/MakerInfo";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 
 const StyledApp = styled.div`
   width: 100vw;
@@ -25,6 +26,7 @@ const StyledApp = styled.div`
 `;
 
 function App() {
+  const { loading, data, error } = useSelector((state) => state.todoData);
   return (
     <>
       <GlobalStyle />
@@ -34,7 +36,7 @@ function App() {
           <Routes>
             <Route
               path="/"
-              element={<TodoContainer />}
+              element={<TodoContainer data={data} />}
             />
             <Route
               path="/statistics"
