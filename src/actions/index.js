@@ -12,6 +12,9 @@ export const ADD_TODO_SUCCESS = "ADD_TODO_SUCCESS";
 export const ADD_TODO_ERROR = "ADD_TODO_ERROR";
 
 export const DELETE_TODO = "DELETE_TODO";
+export const DELETE_TODO_SUCCESS = "DELETE_TODO_SUCCESS";
+export const DELETE_TODO_ERROR = "DELETE_TODO_ERROR";
+
 export const UPDATE_TODO = "UPDATE_TODO";
 
 export const FILTER_ALL = "FILTER_ALL";
@@ -41,6 +44,17 @@ export const addTodo = (payload) => async (dispatch) => {
     dispatch({ type: ADD_TODO_SUCCESS, payload });
   } catch (e) {
     dispatch({ type: ADD_TODO_ERROR, error: e });
+  }
+};
+
+export const deleteTodo = (id) => async (dispatch) => {
+  // 요청 시작
+  dispatch({ type: DELETE_TODO });
+  try {
+    axios.delete(`${url}/${id}`);
+    dispatch({ type: DELETE_TODO_SUCCESS, id });
+  } catch (e) {
+    dispatch({ type: DELETE_TODO_ERROR, error: e });
   }
 };
 

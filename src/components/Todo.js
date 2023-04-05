@@ -2,6 +2,8 @@ import { useState } from "react";
 import styled from "styled-components";
 import Icon from "../style/Icon";
 import TodoDropdown from "./TodoDropdown";
+import { useDispatch } from "react-redux";
+import { deleteTodo } from "../actions";
 
 const StyledTodo = styled.li`
   display: flex;
@@ -30,9 +32,14 @@ const StyledTodo = styled.li`
 `;
 
 const Todo = ({ todo, openModal }) => {
-  // 개별 투두
-  // 수정 삭제 및 할일 내용이 표시됨
+  const dispatch = useDispatch();
   const [isDone, setIsDone] = useState(todo.done);
+  const thisId = todo.id;
+
+  const handleOnDelete = () => {
+    dispatch(deleteTodo(thisId));
+  };
+
   const optionsDropdown = {
     title: null,
     icon: {
@@ -41,12 +48,14 @@ const Todo = ({ todo, openModal }) => {
     },
     children: [
       { title: "수정하기", onClick: openModal },
-      { title: "삭제하기" },
+      { title: "삭제하기", onClick: handleOnDelete },
     ],
   };
+
   const handleChecked = (e) => {
     setIsDone(e.target.checked);
   };
+
   return (
     <StyledTodo>
       <label className="todo-check">
@@ -55,7 +64,7 @@ const Todo = ({ todo, openModal }) => {
           checked={isDone}
           onChange={handleChecked}
         />
-        {todo.count === null ? (
+        {todo.count.total === 1 ? (
           isDone ? (
             <Icon
               name="check_box"
@@ -84,7 +93,7 @@ const Todo = ({ todo, openModal }) => {
       </label>
       <div className="todo-content-box">
         <p className="todo-content">{todo.content}</p>
-        {todo.count !== null ? (
+        {todo.count.total !== 1 ? (
           <p className="todo-count">{`${todo.count.current}/${todo.count.total}`}</p>
         ) : (
           <></>
