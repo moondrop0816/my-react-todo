@@ -1,7 +1,5 @@
 export const initialState = {
-  todoData: {
-    loading: false,
-    data: [],
-    error: null,
-  },
+  loading: false,
+  data: [],
+  error: null,
 };
