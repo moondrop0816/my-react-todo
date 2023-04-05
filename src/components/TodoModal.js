@@ -1,7 +1,9 @@
+import { useState } from "react";
 import styled from "styled-components";
 import Icon from "../style/Icon";
-
-const StyledTitleIcon = styled(Icon)``;
+import shortid from "shortid";
+import { useDispatch } from "react-redux";
+import { addTodo } from "../actions";
 
 const StyledTodoModal = styled.div`
   position: absolute;
@@ -88,8 +90,20 @@ const StyledTodoModal = styled.div`
     }
   }
 `;
+
 const TodoModal = ({ options, setOptions }) => {
+  const dispatch = useDispatch();
   const { isOpen, mode } = options;
+  const [values, setValues] = useState({
+    id: shortid.generate(),
+    content: "",
+    count: {
+      current: 0,
+      total: 1,
+    },
+    done: false,
+  });
+
   const closeModal = (e) => {
     if (
       e.target.classList.contains("modal-bg") ||
@@ -97,23 +111,55 @@ const TodoModal = ({ options, setOptions }) => {
     )
       setOptions({ ...options, isOpen: false });
   };
+
+  const handleOnChangeForm = (e) => {
+    let inputData = {};
+    if (e.target.name === "content") {
+      inputData.content = e.target.value;
+    } else if (e.target.name === "total") {
+      inputData.count = { total: e.target.value };
+    } else if (e.target.name === "current") {
+      inputData.count = { current: e.target.value };
+    }
+
+    setValues({ ...values, ...inputData });
+  };
+
+  const handleOnSubmit = (event) => {
+    event.preventDefault();
+    dispatch(addTodo(values));
+    setValues({
+      id: shortid.generate(),
+      content: "",
+      count: {
+        current: 0,
+        total: 1,
+      },
+      done: false,
+    });
+    setOptions({ ...options, isOpen: false });
+  };
+
   return (
     <StyledTodoModal
       className={isOpen ? "modal-bg on" : "modal-bg"}
       onClick={(e) => closeModal(e)}
     >
-      <form className="modal-content">
+      <form
+        className="modal-content"
+        onSubmit={(event) => handleOnSubmit(event)}
+      >
         <div className="modal-title-box">
           <h3 className="modal-title">
             {mode === "create" ? (
-              <StyledTitleIcon
+              <Icon
                 name="add"
                 fontSize="3rem"
                 color="var(--white)"
                 bgColor="var(--point-2)"
               />
             ) : (
-              <StyledTitleIcon
+              <Icon
                 name="edit"
                 fontSize="3rem"
                 color="var(--white)"
@@ -138,16 +184,36 @@ const TodoModal = ({ options, setOptions }) => {
             <p>할일 내용</p>
             <input
               type="text"
+              name="content"
               placeholder="할일의 내용을 입력해주세요."
+              value={values.content}
+              onChange={(e) => handleOnChangeForm(e)}
             />
           </label>
         </div>
+        {mode === "edit" && (
+          <div className="modal-txt-box">
+            <label>
+              <p>할일 완료 횟수</p>
+              <input
+                type="number"
+                name="current"
+                value={values.count.current}
+                onChange={(e) => handleOnChangeForm(e)}
+                placeholder="현재까지 완료한 횟수를 입력해주세요."
+              />
+            </label>
+          </div>
+        )}
         <div className="modal-txt-box">
           <label>
-            <p>횟수</p>
+            <p>할일 총 횟수</p>
             <input
               type="number"
-              defaultValue={1}
+              name="total"
+              placeholder="총 완료할 횟수를 입력해주세요."
+              value={values.count.total}
+              onChange={(e) => handleOnChangeForm(e)}
             />
           </label>
         </div>
