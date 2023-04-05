@@ -1,5 +1,7 @@
 import axios from "axios";
 
+const url = "http://localhost:3001/todos";
+
 // action types
 export const GET_TODOS = "GET_TODOS";
 export const GET_TODOS_SUCCESS = "GET_TODOS_SUCCESS";
@@ -24,19 +26,19 @@ export const getTodos = () => async (dispatch) => {
   // 요청 시작
   dispatch({ type: GET_TODOS });
   try {
-    const { data } = await axios.get("http://localhost:3001/todos");
+    const { data } = await axios.get(url);
     dispatch({ type: GET_TODOS_SUCCESS, data });
   } catch (e) {
     dispatch({ type: GET_TODOS_ERROR, error: e });
   }
 };
 
-export const addTodo = () => async (dispatch) => {
+export const addTodo = (payload) => async (dispatch) => {
   // 요청 시작
   dispatch({ type: ADD_TODO });
   try {
-    const { data } = await axios.get("http://localhost:3001/todos");
-    dispatch({ type: ADD_TODO_SUCCESS, data });
+    axios.post(url, payload);
+    dispatch({ type: ADD_TODO_SUCCESS, payload });
   } catch (e) {
     dispatch({ type: ADD_TODO_ERROR, error: e });
   }
