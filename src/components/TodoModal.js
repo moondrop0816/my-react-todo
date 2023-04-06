@@ -108,7 +108,6 @@ const TodoModal = ({ options, setOptions }) => {
   useEffect(() => {
     if (mode === "edit") {
       const filtered = data.filter((el) => el.id === updateTarget)[0];
-      console.log(filtered);
       setValues({
         id: filtered.id,
         content: filtered.content,
@@ -155,15 +154,14 @@ const TodoModal = ({ options, setOptions }) => {
         },
       });
     }
-    console.log(values);
   };
 
   const handleOnSubmit = (event) => {
     event.preventDefault();
     if (mode === "create") {
       dispatch(addTodo(values));
-    } else {
-      dispatch(updateTodo());
+    } else if (mode === "edit") {
+      dispatch(updateTodo({ ...values }));
     }
     setValues({
       id: shortid.generate(),
@@ -174,7 +172,7 @@ const TodoModal = ({ options, setOptions }) => {
       },
       done: false,
     });
-    setOptions({ ...options, isOpen: false });
+    setOptions({ isOpen: false, mode: "" });
   };
 
   return (
@@ -225,6 +223,7 @@ const TodoModal = ({ options, setOptions }) => {
               placeholder="할일의 내용을 입력해주세요."
               value={values.content}
               onChange={(e) => handleOnChangeForm(e)}
+              required
             />
           </label>
         </div>
