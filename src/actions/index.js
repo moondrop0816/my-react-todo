@@ -15,7 +15,11 @@ export const DELETE_TODO = "DELETE_TODO";
 export const DELETE_TODO_SUCCESS = "DELETE_TODO_SUCCESS";
 export const DELETE_TODO_ERROR = "DELETE_TODO_ERROR";
 
+export const UPDATE_TARGET = "UPDATE_TARGET";
+
 export const UPDATE_TODO = "UPDATE_TODO";
+export const UPDATE_TODO_SUCCESS = "UPDATE_TODO_SUCCESS";
+export const UPDATE_TODO_ERROR = "UPDATE_TODO_ERROR";
 
 export const FILTER_ALL = "FILTER_ALL";
 export const FILTER_UNDONE = "FILTER_UNDON";
@@ -53,6 +57,21 @@ export const deleteTodo = (id) => async (dispatch) => {
   try {
     axios.delete(`${url}/${id}`);
     dispatch({ type: DELETE_TODO_SUCCESS, id });
+  } catch (e) {
+    dispatch({ type: DELETE_TODO_ERROR, error: e });
+  }
+};
+
+export const updateTarget = (id) => async (dispatch) => {
+  dispatch({ type: UPDATE_TARGET, id });
+};
+
+export const updateTodo = (payload) => async (dispatch) => {
+  // 요청 시작
+  dispatch({ type: UPDATE_TODO });
+  try {
+    axios.patch(`${url}/${payload.id}`);
+    dispatch({ type: DELETE_TODO_SUCCESS, payload });
   } catch (e) {
     dispatch({ type: DELETE_TODO_ERROR, error: e });
   }
