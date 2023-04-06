@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Icon from "../style/Icon";
 import shortid from "shortid";
-import { useDispatch } from "react-redux";
-import { addTodo } from "../actions";
+import { useDispatch, useSelector } from "react-redux";
+import { addTodo, updateTodo } from "../actions";
 
 const StyledTodoModal = styled.div`
   position: absolute;
@@ -92,6 +92,7 @@ const StyledTodoModal = styled.div`
 `;
 
 const TodoModal = ({ options, setOptions }) => {
+  const { data, updateTarget } = useSelector((state) => state);
   const dispatch = useDispatch();
   const { isOpen, mode } = options;
   const [values, setValues] = useState({
@@ -104,6 +105,32 @@ const TodoModal = ({ options, setOptions }) => {
     done: false,
   });
 
+  useEffect(() => {
+    if (mode === "edit") {
+      const filtered = data.filter((el) => el.id === updateTarget)[0];
+      console.log(filtered);
+      setValues({
+        id: filtered.id,
+        content: filtered.content,
+        count: {
+          current: filtered.count.current,
+          total: filtered.count.total,
+        },
+        done: filtered.done,
+      });
+    } else {
+      setValues({
+        id: shortid.generate(),
+        content: "",
+        count: {
+          current: 0,
+          total: 1,
+        },
+        done: false,
+      });
+    }
+  }, [mode, updateTarget, data]);
+
   const closeModal = (e) => {
     if (
       e.target.classList.contains("modal-bg") ||
@@ -113,21 +140,31 @@ const TodoModal = ({ options, setOptions }) => {
   };
 
   const handleOnChangeForm = (e) => {
-    let inputData = {};
-    if (e.target.name === "content") {
-      inputData.content = e.target.value;
-    } else if (e.target.name === "total") {
-      inputData.count = { total: e.target.value };
-    } else if (e.target.name === "current") {
-      inputData.count = { current: e.target.value };
+    const { name, value } = e.target;
+    if (name === "content") {
+      setValues({
+        ...values,
+        [name]: value,
+      });
+    } else {
+      setValues({
+        ...values,
+        count: {
+          ...values.count,
+          [name]: value,
+        },
+      });
     }
-
-    setValues({ ...values, ...inputData });
+    console.log(values);
   };
 
   const handleOnSubmit = (event) => {
     event.preventDefault();
-    dispatch(addTodo(values));
+    if (mode === "create") {
+      dispatch(addTodo(values));
+    } else {
+      dispatch(updateTodo());
+    }
     setValues({
       id: shortid.generate(),
       content: "",
@@ -191,26 +228,26 @@ const TodoModal = ({ options, setOptions }) => {
             />
           </label>
         </div>
-        {mode === "edit" && (
-          <div className="modal-txt-box">
-            <label>
-              <p>할일 완료 횟수</p>
-              <input
-                type="number"
-                name="current"
-                value={values.count.current}
-                onChange={(e) => handleOnChangeForm(e)}
-                placeholder="현재까지 완료한 횟수를 입력해주세요."
-              />
-            </label>
-          </div>
-        )}
+        <div className="modal-txt-box">
+          <label>
+            <p>할일 완료 횟수</p>
+            <input
+              type="number"
+              name="current"
+              min={0}
+              value={values.count.current}
+              onChange={(e) => handleOnChangeForm(e)}
+              placeholder="현재까지 완료한 횟수를 입력해주세요."
+            />
+          </label>
+        </div>
         <div className="modal-txt-box">
           <label>
             <p>할일 총 횟수</p>
             <input
               type="number"
               name="total"
+              min={0}
               placeholder="총 완료할 횟수를 입력해주세요."
               value={values.count.total}
               onChange={(e) => handleOnChangeForm(e)}
