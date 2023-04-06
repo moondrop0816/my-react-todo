@@ -98,10 +98,10 @@ const TodoReducer = (state = initialState, action) => {
       return {
         loading: false,
         data: state.data.map((el) =>
-          el.id === action.id ? { ...el, ...action.payload } : el
+          el.id === action.payload.id ? { ...el, ...action.payload } : el
         ),
         error: null,
-        updateTarget: 0,
+        updateTarget: "",
       };
     case UPDATE_TODO_ERROR:
       return {
