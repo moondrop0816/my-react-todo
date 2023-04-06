@@ -67,13 +67,14 @@ export const updateTarget = (id) => async (dispatch) => {
 };
 
 export const updateTodo = (payload) => async (dispatch) => {
+  console.log(payload);
   // 요청 시작
   dispatch({ type: UPDATE_TODO });
   try {
-    axios.patch(`${url}/${payload.id}`);
-    dispatch({ type: DELETE_TODO_SUCCESS, payload });
+    axios.put(`${url}/${payload.id}`, payload);
+    dispatch({ type: UPDATE_TODO_SUCCESS, payload });
   } catch (e) {
-    dispatch({ type: DELETE_TODO_ERROR, error: e });
+    dispatch({ type: UPDATE_TODO_ERROR, error: e });
   }
 };
 
