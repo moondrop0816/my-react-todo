@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Icon from "../style/Icon";
 import TodoDropdown from "./TodoDropdown";
 import { useDispatch } from "react-redux";
-import { deleteTodo } from "../actions";
+import { deleteTodo, updateTarget } from "../actions";
 
 const StyledTodo = styled.li`
   display: flex;
@@ -34,10 +34,14 @@ const StyledTodo = styled.li`
 const Todo = ({ todo, openModal }) => {
   const dispatch = useDispatch();
   const [isDone, setIsDone] = useState(todo.done);
-  const thisId = todo.id;
 
   const handleOnDelete = () => {
-    dispatch(deleteTodo(thisId));
+    dispatch(deleteTodo(todo.id));
+  };
+
+  const handleOnUpdateTarget = (e) => {
+    dispatch(updateTarget(todo.id));
+    openModal(e);
   };
 
   const optionsDropdown = {
@@ -47,7 +51,7 @@ const Todo = ({ todo, openModal }) => {
       color: "var(--gray)",
     },
     children: [
-      { title: "수정하기", onClick: openModal },
+      { title: "수정하기", onClick: handleOnUpdateTarget },
       { title: "삭제하기", onClick: handleOnDelete },
     ],
   };
