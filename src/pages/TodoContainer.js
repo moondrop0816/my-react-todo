@@ -5,8 +5,6 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import Icon from "../style/Icon";
 import TodoDropdown from "../components/TodoDropdown";
-import { useDispatch } from "react-redux";
-import { getTodos } from "../actions";
 
 const StyledTodoContainer = styled.div`
   .todo-task-box {
@@ -44,21 +42,24 @@ const StyledTodoContainer = styled.div`
 `;
 
 const TodoContainer = ({ data }) => {
-  const dispatch = useDispatch();
-
-  // const [todos, setTodos] = useState([]);
   const [modal, setModal] = useState({
     isOpen: false,
     mode: "",
   });
+  const [filter, setFilter] = useState("전체");
 
   const filterDropdown = {
-    title: "전체",
+    title: filter,
     icon: {
       name: "filter_alt",
     },
-    children: [{ title: "전체" }, { title: "미완료" }, { title: "완료" }],
+    children: [
+      { title: "전체", onClick: () => setFilter("전체") },
+      { title: "미완료", onClick: () => setFilter("미완료") },
+      { title: "완료", onClick: () => setFilter("완료") },
+    ],
   };
+
   const deleteDropdown = {
     title: null,
     icon: {
@@ -66,10 +67,6 @@ const TodoContainer = ({ data }) => {
     },
     children: [{ title: "전체 삭제" }, { title: "완료한 할일만 삭제" }],
   };
-
-  useEffect(() => {
-    dispatch(getTodos());
-  }, [dispatch]);
 
   const getDate = () => {
     const d = new Date();
@@ -96,21 +93,27 @@ const TodoContainer = ({ data }) => {
       e.currentTarget.className === "btn-add-todo" ? "create" : "edit";
     setModal({ isOpen: true, mode });
   };
+
+  const filtered = data.filter((el) => {
+    if (filter === "전체") return el;
+    if (filter === "미완료") return !el.isDone;
+    if (filter === "완료") return el.isDone;
+  });
   return (
     <StyledTodoContainer>
       <div className="todo-task-box">
         <h2>{getDate()}</h2>
-        <h3>남은 할일 {data.filter((el) => !el.done).length}개</h3>
+        <h3>남은 할일 {filtered.filter((el) => !el.isDone).length}개</h3>
       </div>
       <div className="todo-options-box">
         <TodoDropdown list={filterDropdown} />
         <TodoDropdown list={deleteDropdown} />
       </div>
       <ul className="todo-list">
-        {data.length === 0 ? (
+        {filtered.length === 0 ? (
           <li>할일이 없습니다.</li>
         ) : (
-          data.map((todo) => {
+          filtered.map((todo) => {
             return (
               <Todo
                 key={todo.id}
