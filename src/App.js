@@ -5,7 +5,11 @@ import TodoContainer from "./pages/TodoContainer";
 import Statistics from "./pages/Statistics";
 import MakerInfo from "./pages/MakerInfo";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { getTodos } from "./actions";
+import { ThemeProvider } from "styled-components";
+import theme from "./style/theme.js";
 
 const StyledApp = styled.div`
   width: 100vw;
@@ -26,29 +30,43 @@ const StyledApp = styled.div`
 `;
 
 function App() {
-  const { loading, data, error } = useSelector((state) => state.todoData);
+  const { loading, data, error } = useSelector((state) => state);
+  const state = useSelector((state) => state);
+  console.log(state);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getTodos());
+  }, [dispatch]);
+
+  if (loading) return <div>로딩중...</div>;
+  if (error) return <div>에러 발생!</div>;
+  if (!data) return null;
+
   return (
     <>
-      <GlobalStyle />
-      <StyledApp className="App">
-        <Header />
-        <section className="wrapper">
-          <Routes>
-            <Route
-              path="/"
-              element={<TodoContainer data={data} />}
-            />
-            <Route
-              path="/statistics"
-              element={<Statistics />}
-            />
-            <Route
-              path="/makerinfo"
-              element={<MakerInfo />}
-            />
-          </Routes>
-        </section>
-      </StyledApp>
+      <ThemeProvider theme={theme}>
+        <GlobalStyle />
+        <StyledApp className="App">
+          <Header />
+          <section className="wrapper">
+            <Routes>
+              <Route
+                path="/"
+                element={<TodoContainer data={data} />}
+              />
+              <Route
+                path="/statistics"
+                element={<Statistics />}
+              />
+              <Route
+                path="/makerinfo"
+                element={<MakerInfo />}
+              />
+            </Routes>
+          </section>
+        </StyledApp>
+      </ThemeProvider>
     </>
   );
 }
