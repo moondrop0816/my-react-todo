@@ -18,11 +18,11 @@ const StyledApp = styled.div`
   flex-direction: column;
   align-items: center;
   position: relative;
-  background: var(--base);
+  background: ${({ theme }) => theme.color.base};
 
   .wrapper {
     width: 95%;
-    background: var(--white);
+    background: ${({ theme }) => theme.color.white};
     margin-top: 5em;
     padding: 1em;
     border-radius: 1rem;

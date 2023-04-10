@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import Icon from "./style/Icon";
+import Icon from "./components/Icon";
 
 const StyledNavBg = styled.div`
   width: 100%;
@@ -25,7 +25,7 @@ const StyledNav = styled.nav`
   width: 50%;
   height: 100%;
   padding: 1em;
-  background: var(--white);
+  background: ${({ theme }) => theme.color.white};
   position: fixed;
   top: 0;
   right: -100%;

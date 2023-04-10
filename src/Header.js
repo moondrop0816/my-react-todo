@@ -6,7 +6,7 @@ const StyledHeader = styled.header`
   width: 100%;
   display: flex;
   justify-content: center;
-  background-color: var(--white);
+  background-color: ${({ theme }) => theme.color.white};
   position: fixed;
   z-index: 9;
 

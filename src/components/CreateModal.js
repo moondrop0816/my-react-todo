@@ -1,97 +1,15 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import Icon from "../style/Icon";
+import Icon from "./Icon";
 import shortid from "shortid";
 import { useDispatch, useSelector } from "react-redux";
 import { addTodo, updateTodo } from "../actions";
 
-const StyledTodoModal = styled.div`
-  position: absolute;
-  background: rgba(0, 0, 0, 0.5);
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 9;
-
-  &.on {
-    display: flex;
-  }
-
-  .modal-content {
-    width: 50%;
-    background: var(--white);
-    padding: 1em;
-    border-radius: 0.5em;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .modal-title-box {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2em;
-
-    .modal-title {
-      display: flex;
-      align-items: center;
-      font-size: 2.4rem;
-      font-weight: 600;
-
-      span:first-of-type {
-        margin-right: 0.2em;
-        border-radius: 50%;
-        padding: 0.1em;
-      }
-    }
-  }
-
-  .modal-txt-box {
-    margin-bottom: 1em;
-
-    &:last-of-type {
-      margin-bottom: 2em;
-    }
-
-    label {
-      display: block;
-
-      p {
-        font-size: 1.8rem;
-        font-weight: 500;
-        margin-bottom: 0.5em;
-      }
-
-      input {
-        font-size: 1.8rem;
-        width: 100%;
-        padding: 0.3em 0.5em;
-        border: 1px solid var(--gray);
-        border-radius: 0.2em;
-      }
-    }
-  }
-
-  button[type="submit"] {
-    border: 2px solid var(--main-1);
-    border-radius: 0.5em;
-    font-size: 1.8rem;
-    padding: 0.5em;
-    font-weight: 500;
-    transition: all 0.5s;
-
-    &:hover {
-      background: var(--main-1);
-      border-color: transparent;
-    }
-  }
+const StyledModal = styled.div`
+  ${({ theme }) => theme.components.modal}
 `;
 
-const TodoModal = ({ options, setOptions }) => {
+const CreateModal = ({ options, setOptions }) => {
   const { data, updateTarget } = useSelector((state) => state);
   const dispatch = useDispatch();
   const { isOpen, mode } = options;
@@ -102,7 +20,7 @@ const TodoModal = ({ options, setOptions }) => {
       current: 0,
       total: 1,
     },
-    done: false,
+    isDone: false,
   });
 
   useEffect(() => {
@@ -115,7 +33,7 @@ const TodoModal = ({ options, setOptions }) => {
           current: filtered.count.current,
           total: filtered.count.total,
         },
-        done: filtered.done,
+        isDone: filtered.isDone,
       });
     } else {
       setValues({
@@ -125,7 +43,7 @@ const TodoModal = ({ options, setOptions }) => {
           current: 0,
           total: 1,
         },
-        done: false,
+        isDone: false,
       });
     }
   }, [mode, updateTarget, data]);
@@ -150,7 +68,7 @@ const TodoModal = ({ options, setOptions }) => {
         ...values,
         count: {
           ...values.count,
-          [name]: value,
+          [name]: Number(value),
         },
       });
     }
@@ -170,13 +88,13 @@ const TodoModal = ({ options, setOptions }) => {
         current: 0,
         total: 1,
       },
-      done: false,
+      isDone: false,
     });
     setOptions({ isOpen: false, mode: "" });
   };
 
   return (
-    <StyledTodoModal
+    <StyledModal
       className={isOpen ? "modal-bg on" : "modal-bg"}
       onClick={(e) => closeModal(e)}
     >
@@ -186,22 +104,13 @@ const TodoModal = ({ options, setOptions }) => {
       >
         <div className="modal-title-box">
           <h3 className="modal-title">
-            {mode === "create" ? (
-              <Icon
-                name="add"
-                fontSize="3rem"
-                color="var(--white)"
-                bgColor="var(--point-2)"
-              />
-            ) : (
-              <Icon
-                name="edit"
-                fontSize="3rem"
-                color="var(--white)"
-                bgColor="var(--main-2)"
-              />
-            )}
-            <span>{mode === "create" ? "할일 등록하기" : "할일 수정하기"}</span>
+            <Icon
+              name="add"
+              fontSize={(props) => props.theme.fontSize.iconLg}
+              color={(props) => props.theme.color.white}
+              bgColor={(props) => props.theme.color.point2}
+            />
+            할일 등록하기
           </h3>
           <button
             type="button"
@@ -210,7 +119,7 @@ const TodoModal = ({ options, setOptions }) => {
           >
             <Icon
               name="close"
-              fontSize="3rem"
+              fontSize={(props) => props.theme.fontSize.iconLg}
             />
           </button>
         </div>
@@ -253,12 +162,10 @@ const TodoModal = ({ options, setOptions }) => {
             />
           </label>
         </div>
-        <button type="submit">
-          {mode === "create" ? "할일 등록" : "할일 수정"}
-        </button>
+        <button type="submit">할일 등록</button>
       </form>
-    </StyledTodoModal>
+    </StyledModal>
   );
 };
 
-export default TodoModal;
+export default CreateModal;
