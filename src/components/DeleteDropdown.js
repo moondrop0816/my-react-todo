@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import Icon from "./Icon";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteTodo } from "../actions";
 
 const StyledDropdown = styled.div`
   ${({ theme }) => theme.components.dropdown}
@@ -9,6 +11,18 @@ const StyledDropdown = styled.div`
 const DeleteDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
   const optionsRef = useRef();
+  const data = useSelector((state) => state.data);
+  const dispatch = useDispatch();
+
+  const handleDeleteAll = () => {
+    data.forEach((el) => {
+      dispatch(deleteTodo(el.id));
+    });
+  };
+  const handleDeleteDone = () => {
+    const filtered = data.filter((el) => el.isDone);
+    filtered.forEach((el) => dispatch(deleteTodo(el.id)));
+  };
 
   useEffect(() => {
     const handleOutsideClose = (e) => {
@@ -31,8 +45,8 @@ const DeleteDropdown = () => {
         <Icon name="delete_sweep" />
       </button>
       <ul>
-        <li>전체 삭제</li>
-        <li>완료한 할일만 삭제</li>
+        <li onClick={handleDeleteAll}>전체 삭제</li>
+        <li onClick={handleDeleteDone}>완료한 할일만 삭제</li>
       </ul>
     </StyledDropdown>
   );
