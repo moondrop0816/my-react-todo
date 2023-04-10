@@ -43,23 +43,9 @@ const StyledTodoContainer = styled.div`
 `;
 
 const TodoContainer = ({ data }) => {
-  const [modal, setModal] = useState({
-    isOpen: false,
-    mode: "",
-  });
+  const [createOpen, setCreateOpen] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
   const [filter, setFilter] = useState("전체");
-
-  // const filterDropdown = {
-  //   title: filter,
-  //   icon: {
-  //     name: "filter_alt",
-  //   },
-  //   children: [
-  //     { title: "전체", onClick: () => setFilter("전체") },
-  //     { title: "미완료", onClick: () => setFilter("미완료") },
-  //     { title: "완료", onClick: () => setFilter("완료") },
-  //   ],
-  // };
 
   const getDate = () => {
     const d = new Date();
@@ -81,12 +67,6 @@ const TodoContainer = ({ data }) => {
     return `${year}년 ${month}월 ${date}일 ${day}`;
   };
 
-  const openModal = (e) => {
-    const mode =
-      e.currentTarget.className === "btn-add-todo" ? "create" : "edit";
-    setModal({ isOpen: true, mode });
-  };
-
   const filtered = data.filter((el) => {
     if (filter === "전체") return el;
     if (filter === "미완료") return !el.isDone;
@@ -99,7 +79,10 @@ const TodoContainer = ({ data }) => {
         <h3>남은 할일 {filtered.filter((el) => !el.isDone).length}개</h3>
       </div>
       <div className="todo-options-box">
-        <FilterDropdown />
+        <FilterDropdown
+          filter={filter}
+          setFilter={setFilter}
+        />
         <DeleteDropdown />
       </div>
       <ul className="todo-list">
@@ -111,24 +94,28 @@ const TodoContainer = ({ data }) => {
               <Todo
                 key={todo.id}
                 todo={todo}
-                openModal={openModal}
+                setEditOpen={setEditOpen}
               />
             );
           })
         )}
       </ul>
-      <CreateModal
-        options={modal}
-        setOptions={setModal}
-      />
-      <EditModal
-        options={modal}
-        setOptions={setModal}
-      />
+      {createOpen && (
+        <CreateModal
+          isOpen={createOpen}
+          setIsOpen={setCreateOpen}
+        />
+      )}
+      {editOpen && (
+        <EditModal
+          isOpen={editOpen}
+          setIsOpen={setEditOpen}
+        />
+      )}
       <button
         type="button"
         className="btn-add-todo"
-        onClick={(e) => openModal(e)}
+        onClick={() => setCreateOpen(true)}
       >
         <Icon
           name="add"

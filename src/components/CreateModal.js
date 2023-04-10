@@ -1,18 +1,16 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import Icon from "./Icon";
 import shortid from "shortid";
-import { useDispatch, useSelector } from "react-redux";
-import { addTodo, updateTodo } from "../actions";
+import { useDispatch } from "react-redux";
+import { addTodo } from "../actions";
 
 const StyledModal = styled.div`
   ${({ theme }) => theme.components.modal}
 `;
 
-const CreateModal = ({ options, setOptions }) => {
-  const { data, updateTarget } = useSelector((state) => state);
+const CreateModal = ({ isOpen, setIsOpen }) => {
   const dispatch = useDispatch();
-  const { isOpen, mode } = options;
   const [values, setValues] = useState({
     id: shortid.generate(),
     content: "",
@@ -23,37 +21,12 @@ const CreateModal = ({ options, setOptions }) => {
     isDone: false,
   });
 
-  useEffect(() => {
-    if (mode === "edit") {
-      const filtered = data.filter((el) => el.id === updateTarget)[0];
-      setValues({
-        id: filtered.id,
-        content: filtered.content,
-        count: {
-          current: filtered.count.current,
-          total: filtered.count.total,
-        },
-        isDone: filtered.isDone,
-      });
-    } else {
-      setValues({
-        id: shortid.generate(),
-        content: "",
-        count: {
-          current: 0,
-          total: 1,
-        },
-        isDone: false,
-      });
-    }
-  }, [mode, updateTarget, data]);
-
   const closeModal = (e) => {
     if (
       e.target.classList.contains("modal-bg") ||
       e.currentTarget.className === "btn-close"
     )
-      setOptions({ ...options, isOpen: false });
+      setIsOpen(false);
   };
 
   const handleOnChangeForm = (e) => {
@@ -76,11 +49,7 @@ const CreateModal = ({ options, setOptions }) => {
 
   const handleOnSubmit = (event) => {
     event.preventDefault();
-    if (mode === "create") {
-      dispatch(addTodo(values));
-    } else if (mode === "edit") {
-      dispatch(updateTodo({ ...values }));
-    }
+    dispatch(addTodo(values));
     setValues({
       id: shortid.generate(),
       content: "",
@@ -90,7 +59,7 @@ const CreateModal = ({ options, setOptions }) => {
       },
       isDone: false,
     });
-    setOptions({ isOpen: false, mode: "" });
+    setIsOpen(false);
   };
 
   return (

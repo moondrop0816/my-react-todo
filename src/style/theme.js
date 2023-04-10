@@ -16,7 +16,6 @@ const fontSize = {
   base: "1.6rem",
   md: "1.8rem",
   lg: "2rem",
-  h1: "3.6rem",
   icon: "2.4rem",
   iconLg: "3rem",
   iconXl: "3.6rem",

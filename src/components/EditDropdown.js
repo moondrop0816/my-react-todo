@@ -1,14 +1,26 @@
 import { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import Icon from "./Icon";
+import { useDispatch } from "react-redux";
+import { deleteTodo, updateTarget } from "../actions";
 
 const StyledDropdown = styled.div`
   ${({ theme }) => theme.components.dropdown}
 `;
 
-const EditDropdown = () => {
+const EditDropdown = ({ id, setEditOpen }) => {
+  const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const optionsRef = useRef();
+
+  const handleOnDelete = () => {
+    dispatch(deleteTodo(id));
+  };
+
+  const handleOnUpdateTarget = () => {
+    dispatch(updateTarget(id));
+    setEditOpen(true);
+  };
 
   useEffect(() => {
     const handleOutsideClose = (e) => {
@@ -34,8 +46,8 @@ const EditDropdown = () => {
         />
       </button>
       <ul>
-        <li>수정하기</li>
-        <li>삭제하기</li>
+        <li onClick={handleOnUpdateTarget}>수정하기</li>
+        <li onClick={handleOnDelete}>삭제하기</li>
       </ul>
     </StyledDropdown>
   );

@@ -1,6 +1,6 @@
 export const initialState = {
-  loading: false,
+  loading: true,
   data: [],
   error: null,
-  updateTarget: 0,
+  updateTarget: "",
 };

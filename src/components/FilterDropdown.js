@@ -6,9 +6,13 @@ const StyledDropdown = styled.div`
   ${({ theme }) => theme.components.dropdown}
 `;
 
-const FilterDropdown = () => {
+const FilterDropdown = ({ filter, setFilter }) => {
   const [isOpen, setIsOpen] = useState(false);
   const optionsRef = useRef();
+
+  const handleFilter = (e) => {
+    setFilter(e.target.textContent);
+  };
 
   useEffect(() => {
     const handleOutsideClose = (e) => {
@@ -29,9 +33,9 @@ const FilterDropdown = () => {
         onClick={() => setIsOpen(!isOpen)}
       >
         <Icon name="filter_alt" />
-        전체
+        {filter}
       </button>
-      <ul>
+      <ul onClick={(e) => handleFilter(e)}>
         <li>전체</li>
         <li>미완료</li>
         <li>완료</li>

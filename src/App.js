@@ -31,8 +31,6 @@ const StyledApp = styled.div`
 
 function App() {
   const { loading, data, error } = useSelector((state) => state);
-  const state = useSelector((state) => state);
-  console.log(state);
   const dispatch = useDispatch();
 
   useEffect(() => {
