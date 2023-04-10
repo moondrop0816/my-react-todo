@@ -18,19 +18,27 @@ const StyledHeader = styled.header`
   }
 `;
 
-const Header = () => {
+const Header = ({ appTheme, setAppTheme }) => {
   const [nav, setNav] = useState(false);
   const handleMenu = () => {
     setNav(!nav);
+  };
+  const handleTheme = () => {
+    setAppTheme(appTheme === "light" ? "dark" : "light");
   };
 
   return (
     <StyledHeader>
       <div className="header-btns">
-        <button type="button">
-          {/* Todo: 라이트모드 / 다크모드 styled-component ThemeProvider로 처리할것 */}
-          <span className="material-icons-round">light_mode</span>
-          <span className="material-icons-round">dark_mode</span>
+        <button
+          type="button"
+          onClick={handleTheme}
+        >
+          {appTheme === "light" ? (
+            <span className="material-icons-round">light_mode</span>
+          ) : (
+            <span className="material-icons-round">dark_mode</span>
+          )}
         </button>
         <button
           type="button"

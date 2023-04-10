@@ -5,7 +5,7 @@ import TodoContainer from "./pages/TodoContainer";
 import Statistics from "./pages/Statistics";
 import MakerInfo from "./pages/MakerInfo";
 import styled from "styled-components";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getTodos } from "./actions";
 import { ThemeProvider } from "styled-components";
@@ -19,6 +19,11 @@ const StyledApp = styled.div`
   align-items: center;
   position: relative;
   background: ${({ theme }) => theme.color.base};
+  transition: all 0.5s;
+
+  &.dark {
+    filter: invert(100%) hue-rotate(90deg);
+  }
 
   .wrapper {
     width: 95%;
@@ -32,6 +37,7 @@ const StyledApp = styled.div`
 function App() {
   const { loading, data, error } = useSelector((state) => state);
   const dispatch = useDispatch();
+  const [appTheme, setAppTheme] = useState("light");
 
   useEffect(() => {
     dispatch(getTodos());
@@ -45,8 +51,11 @@ function App() {
     <>
       <ThemeProvider theme={theme}>
         <GlobalStyle />
-        <StyledApp className="App">
-          <Header />
+        <StyledApp className={appTheme === "dark" ? "App dark" : "App"}>
+          <Header
+            appTheme={appTheme}
+            setAppTheme={setAppTheme}
+          />
           <section className="wrapper">
             <Routes>
               <Route
