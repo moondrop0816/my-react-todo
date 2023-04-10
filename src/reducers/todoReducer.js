@@ -19,96 +19,81 @@ const TodoReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_TODOS:
       return {
+        ...state,
         loading: true,
-        data: [],
-        error: null,
-        updateTarget: 0,
       };
     case GET_TODOS_SUCCESS:
       return {
+        ...state,
         loading: false,
         data: action.data,
-        error: null,
-        updateTarget: 0,
       };
     case GET_TODOS_ERROR:
       return {
-        loading: true,
-        data: [],
+        ...state,
+        loading: false,
         error: action.error,
-        updateTarget: 0,
       };
     case ADD_TODO:
       return {
+        ...state,
         loading: true,
         data: state.data,
-        error: null,
-        updateTarget: 0,
       };
     case ADD_TODO_SUCCESS:
       return {
+        ...state,
         loading: false,
         data: [...state.data, action.payload],
-        error: null,
-        updateTarget: 0,
       };
     case ADD_TODO_ERROR:
       return {
-        loading: true,
-        data: [],
+        ...state,
+        loading: false,
         error: action.error,
-        updateTarget: 0,
       };
     case DELETE_TODO:
       return {
+        ...state,
         loading: true,
-        data: state.data,
-        error: null,
-        updateTarget: 0,
       };
     case DELETE_TODO_SUCCESS:
       return {
+        ...state,
         loading: false,
         data: state.data.filter((el) => el.id !== action.id),
-        error: null,
-        updateTarget: 0,
       };
     case DELETE_TODO_ERROR:
       return {
-        loading: true,
-        data: [],
+        ...state,
+        loading: false,
         error: action.error,
-        updateTarget: 0,
       };
     case UPDATE_TARGET:
       return {
+        ...state,
         loading: false,
-        data: state.data,
-        error: null,
         updateTarget: action.id,
       };
     case UPDATE_TODO:
       return {
+        ...state,
         loading: true,
-        data: state.data,
-        error: null,
-        updateTarget: 0,
       };
     case UPDATE_TODO_SUCCESS:
       return {
+        ...state,
         loading: false,
         data: state.data.map((el) =>
           el.id === action.payload.id ? { ...el, ...action.payload } : el
         ),
-        error: null,
         updateTarget: "",
       };
     case UPDATE_TODO_ERROR:
       return {
-        loading: true,
-        data: [],
+        ...state,
+        loading: false,
         error: action.error,
-        updateTarget: 0,
       };
     default:
       return state;

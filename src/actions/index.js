@@ -21,10 +21,6 @@ export const UPDATE_TODO = "UPDATE_TODO";
 export const UPDATE_TODO_SUCCESS = "UPDATE_TODO_SUCCESS";
 export const UPDATE_TODO_ERROR = "UPDATE_TODO_ERROR";
 
-export const FILTER_ALL = "FILTER_ALL";
-export const FILTER_UNDONE = "FILTER_UNDON";
-export const FILTER_DONE = "FILTER_DONE";
-
 export const DELETE_ALL = "DELETE_ALL";
 export const DELETE_DONE = "DELETE_DONE";
 
@@ -67,33 +63,12 @@ export const updateTarget = (id) => async (dispatch) => {
 };
 
 export const updateTodo = (payload) => async (dispatch) => {
-  console.log(payload);
   // 요청 시작
   dispatch({ type: UPDATE_TODO });
   try {
-    axios.put(`${url}/${payload.id}`, payload);
+    axios.patch(`${url}/${payload.id}`, payload);
     dispatch({ type: UPDATE_TODO_SUCCESS, payload });
   } catch (e) {
     dispatch({ type: UPDATE_TODO_ERROR, error: e });
   }
 };
-
-// thunk 예시
-// const getComments = () => async (dispatch, getState) => {
-//   const id = getState().post.activeId;
-//   dispatch({ type: 'GET_COMMENTS' });
-//   try {
-//     const comments = await api.getComments(id);
-//     dispatch({ type:  'GET_COMMENTS_SUCCESS', id, comments });
-//   } catch (e) {
-//     dispatch({ type:  'GET_COMMENTS_ERROR', error: e });
-//   }
-// }
-
-// export const notify = (message, dismissTime = 5000) => dispatch => {
-//   const uuid = Math.random()
-//   dispatch(enqueueNotification(message, dismissTime, uuid))
-//   setTimeout(() => {
-//     dispatch(dequeueNotification())
-//   }, dismissTime)
-// }

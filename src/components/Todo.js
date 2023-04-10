@@ -1,8 +1,7 @@
-import { useState } from "react";
 import styled from "styled-components";
 import Icon from "./Icon";
 import { useDispatch } from "react-redux";
-import { deleteTodo, updateTarget, updateTodo } from "../actions";
+import { updateTodo } from "../actions";
 import EditDropdown from "./EditDropdown";
 
 const StyledTodo = styled.li`
@@ -31,51 +30,25 @@ const StyledTodo = styled.li`
   }
 `;
 
-const Todo = ({ todo, openModal }) => {
+const Todo = ({ todo, setEditOpen }) => {
   const dispatch = useDispatch();
-  const [isChecked, setIsChecked] = useState(todo.isDone);
 
-  const handleOnDelete = () => {
-    dispatch(deleteTodo(todo.id));
-  };
-
-  const handleOnUpdateTarget = (e) => {
-    dispatch(updateTarget(todo.id));
-    openModal(e);
-  };
-
-  // const optionsDropdown = {
-  //   title: null,
-  //   icon: {
-  //     name: "more_horiz",
-  //     color: "var(--gray)",
-  //   },
-  //   children: [
-  //     { title: "수정하기", onClick: handleOnUpdateTarget },
-  //     { title: "삭제하기", onClick: handleOnDelete },
-  //   ],
-  // };
-
-  const handleChecked = () => {
+  const handleChecked = (e) => {
+    e.preventDefault();
     const checkTodo = {
       ...todo,
     };
 
-    const current = checkTodo.count.current;
-    const total = checkTodo.count.total;
-    if (current < total) {
+    if (!checkTodo.isDone) {
       checkTodo.count.current += 1;
-      if (current === total) {
-        setIsChecked(true);
-        checkTodo.isDone = isChecked;
+      if (checkTodo.count.current === checkTodo.count.total) {
+        checkTodo.isDone = true;
       }
     } else {
       checkTodo.count.current -= 1;
-      setIsChecked(false);
-      checkTodo.isDone = isChecked;
+      checkTodo.isDone = false;
     }
 
-    dispatch(updateTarget(todo.id));
     dispatch(updateTodo(checkTodo));
   };
 
@@ -83,12 +56,9 @@ const Todo = ({ todo, openModal }) => {
     <StyledTodo>
       <label
         className="todo-check"
-        onClick={handleChecked}
+        onClick={(e) => handleChecked(e)}
       >
-        <input
-          type="checkbox"
-          onChange={handleChecked}
-        />
+        <input type="checkbox" />
         {todo.count.total === 1 ? (
           todo.isDone ? (
             <Icon
@@ -124,7 +94,10 @@ const Todo = ({ todo, openModal }) => {
           <></>
         )}
       </div>
-      <EditDropdown />
+      <EditDropdown
+        id={todo.id}
+        setEditOpen={setEditOpen}
+      />
     </StyledTodo>
   );
 };
