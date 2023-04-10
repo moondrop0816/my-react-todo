@@ -8,18 +8,6 @@ const GlobalStyle = createGlobalStyle`
 ${reset}
 
 /* custom style */
-:root {
-	--white: #fff;
-	--black: #333;
-	--gray: #aaa;
-	--lightGray: #ddd;
-	--base: #fad09f;
-	--main-1: #ffb300;
-	--main-2: #ff6b01;
-	--point-1: #d42926;
-	--point-2: #7d8600;
-}
-
 * {
 	box-sizing: border-box;
 }
