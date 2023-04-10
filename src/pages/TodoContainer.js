@@ -1,10 +1,11 @@
 import Todo from "../components/Todo";
-import TodoModal from "../components/TodoModal";
-import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import styled from "styled-components";
-import Icon from "../style/Icon";
-import TodoDropdown from "../components/TodoDropdown";
+import Icon from "../components/Icon";
+import FilterDropdown from "../components/FilterDropdown";
+import DeleteDropdown from "../components/DeleteDropdown";
+import CreateModal from "../components/CreateModal";
+import EditModal from "../components/EditModal";
 
 const StyledTodoContainer = styled.div`
   .todo-task-box {
@@ -22,8 +23,8 @@ const StyledTodoContainer = styled.div`
   }
 
   .todo-options-box {
-    border-top: 1px solid var(--lightGray);
-    border-bottom: 1px solid var(--lightGray);
+    border-top: 1px solid ${({ theme }) => theme.color.lightGray};
+    border-bottom: 1px solid ${({ theme }) => theme.color.lightGray};
     padding: 0.5em;
     display: flex;
     justify-content: flex-end;
@@ -36,7 +37,7 @@ const StyledTodoContainer = styled.div`
   .btn-add-todo {
     position: fixed;
     right: 1em;
-    background: var(--point-2);
+    background: ${({ theme }) => theme.color.point2};
     border-radius: 50%;
   }
 `;
@@ -48,25 +49,17 @@ const TodoContainer = ({ data }) => {
   });
   const [filter, setFilter] = useState("전체");
 
-  const filterDropdown = {
-    title: filter,
-    icon: {
-      name: "filter_alt",
-    },
-    children: [
-      { title: "전체", onClick: () => setFilter("전체") },
-      { title: "미완료", onClick: () => setFilter("미완료") },
-      { title: "완료", onClick: () => setFilter("완료") },
-    ],
-  };
-
-  const deleteDropdown = {
-    title: null,
-    icon: {
-      name: "delete_sweep",
-    },
-    children: [{ title: "전체 삭제" }, { title: "완료한 할일만 삭제" }],
-  };
+  // const filterDropdown = {
+  //   title: filter,
+  //   icon: {
+  //     name: "filter_alt",
+  //   },
+  //   children: [
+  //     { title: "전체", onClick: () => setFilter("전체") },
+  //     { title: "미완료", onClick: () => setFilter("미완료") },
+  //     { title: "완료", onClick: () => setFilter("완료") },
+  //   ],
+  // };
 
   const getDate = () => {
     const d = new Date();
@@ -106,8 +99,8 @@ const TodoContainer = ({ data }) => {
         <h3>남은 할일 {filtered.filter((el) => !el.isDone).length}개</h3>
       </div>
       <div className="todo-options-box">
-        <TodoDropdown list={filterDropdown} />
-        <TodoDropdown list={deleteDropdown} />
+        <FilterDropdown />
+        <DeleteDropdown />
       </div>
       <ul className="todo-list">
         {filtered.length === 0 ? (
@@ -124,7 +117,11 @@ const TodoContainer = ({ data }) => {
           })
         )}
       </ul>
-      <TodoModal
+      <CreateModal
+        options={modal}
+        setOptions={setModal}
+      />
+      <EditModal
         options={modal}
         setOptions={setModal}
       />
@@ -136,7 +133,7 @@ const TodoContainer = ({ data }) => {
         <Icon
           name="add"
           fontSize="6.2rem"
-          color="var(--white)"
+          color={(props) => props.theme.color.white}
         />
       </button>
     </StyledTodoContainer>
