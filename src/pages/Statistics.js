@@ -1,7 +1,19 @@
+import styled from "styled-components";
+import Icon from "../components/Icon";
+
+const StyledReady = styled.div`
+  ${({ theme }) => theme.components.ready}
+`;
 const Statistics = () => {
-  // 통계 페이지
-  // 주별 또는 월별 목표 통계가 나타난다
-  return <div>통계페이지</div>;
+  return (
+    <StyledReady>
+      <Icon
+        name="pending"
+        fontSize="12rem"
+      />
+      <h2>준비중인 페이지 입니다.</h2>
+    </StyledReady>
+  );
 };
 
 export default Statistics;

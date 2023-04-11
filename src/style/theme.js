@@ -158,6 +158,19 @@ button[type="submit"] {
   }
 }
 `,
+  ready: `
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+height: 100%;
+
+h2 {
+  font-size: 4rem;
+  font-weight: 700;
+  margin-top: 1em;
+}
+`,
 };
 
 const theme = {
