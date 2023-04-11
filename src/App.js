@@ -27,6 +27,7 @@ const StyledApp = styled.div`
 
   .wrapper {
     width: 95%;
+    height: calc(100vh - 6em);
     background: ${({ theme }) => theme.color.white};
     margin-top: 5em;
     padding: 1em;
