@@ -64,7 +64,7 @@ const Nav = ({ menuOpen, handleMenu }) => {
         >
           <Icon name="close" />
         </button>
-        <ul>
+        <ul onClick={handleMenu}>
           <li>
             <Link to="/">오늘의 할일</Link>
           </li>
