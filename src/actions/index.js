@@ -21,12 +21,8 @@ export const UPDATE_TODO = "UPDATE_TODO";
 export const UPDATE_TODO_SUCCESS = "UPDATE_TODO_SUCCESS";
 export const UPDATE_TODO_ERROR = "UPDATE_TODO_ERROR";
 
-export const DELETE_ALL = "DELETE_ALL";
-export const DELETE_DONE = "DELETE_DONE";
-
 // actions creator functions
 export const getTodos = () => async (dispatch) => {
-  // 요청 시작
   dispatch({ type: GET_TODOS });
   try {
     const { data } = await axios.get(url);
@@ -37,7 +33,6 @@ export const getTodos = () => async (dispatch) => {
 };
 
 export const addTodo = (payload) => async (dispatch) => {
-  // 요청 시작
   dispatch({ type: ADD_TODO });
   try {
     axios.post(url, payload);
@@ -48,7 +43,6 @@ export const addTodo = (payload) => async (dispatch) => {
 };
 
 export const deleteTodo = (id) => async (dispatch) => {
-  // 요청 시작
   dispatch({ type: DELETE_TODO });
   try {
     axios.delete(`${url}/${id}`);
@@ -63,7 +57,6 @@ export const updateTarget = (id) => async (dispatch) => {
 };
 
 export const updateTodo = (payload) => async (dispatch) => {
-  // 요청 시작
   dispatch({ type: UPDATE_TODO });
   try {
     axios.patch(`${url}/${payload.id}`, payload);
