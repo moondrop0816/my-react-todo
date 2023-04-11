@@ -37,6 +37,7 @@ const StyledTodoContainer = styled.div`
   .btn-add-todo {
     position: fixed;
     right: 1em;
+    bottom: 1em;
     background: ${({ theme }) => theme.color.point2};
     border-radius: 50%;
   }
