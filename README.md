@@ -84,9 +84,3 @@
 <br/>
 <br/>
 
-[Google][]
-그러고 나서 link를 정의해준다.
-
-# link define
-[Google]: http://google.com/ 
-
